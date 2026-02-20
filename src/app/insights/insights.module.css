@@ -148,3 +148,29 @@
     text-align: right;
     color: var(--text-secondary);
 }
+
+/* Time range toggle */
+.rangeToggle {
+    display: flex;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+}
+
+.rangeBtn {
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 0.4rem;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rangeBtnActive {
+    background: rgba(78, 205, 196, 0.2);
+    color: #4ECDC4;
+}

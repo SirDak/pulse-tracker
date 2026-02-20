@@ -8,7 +8,7 @@ import { getStrainLabel } from '@/engines/strain';
 import { getRecoveryLabel, getRecoveryRecommendation } from '@/engines/recovery';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { IoAdd, IoWater, IoBarbell, IoSunny, IoRefresh } from 'react-icons/io5';
+import { IoAdd, IoWater, IoBarbell, IoSunny, IoRefresh, IoSettings, IoNutrition, IoTime } from 'react-icons/io5';
 import styles from './page.module.css';
 
 export default function Dashboard() {
@@ -47,9 +47,17 @@ export default function Dashboard() {
           <h1 className={styles.title}>Pulse</h1>
           <p className={styles.date}>{today}</p>
         </div>
-        <button className={styles.syncButton} onClick={refreshData} title="Sync data">
-          <IoRefresh />
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <Link href="/history" className={styles.syncButton} title="History">
+            <IoTime />
+          </Link>
+          <button className={styles.syncButton} onClick={refreshData} title="Sync data">
+            <IoRefresh />
+          </button>
+          <Link href="/settings" className={styles.syncButton} title="Settings">
+            <IoSettings />
+          </Link>
+        </div>
       </header>
 
       {/* Score Gauges */}
@@ -176,11 +184,15 @@ export default function Dashboard() {
         </Link>
         <Link href="/workout" className={`glass-card ${styles.actionCard}`}>
           <IoBarbell className={styles.actionIcon} style={{ color: '#7C4DFF' }} />
-          <span>Log Workout</span>
+          <span>Workout</span>
         </Link>
         <Link href="/morning" className={`glass-card ${styles.actionCard}`}>
           <IoSunny className={styles.actionIcon} style={{ color: '#FFD600' }} />
-          <span>Morning Check</span>
+          <span>Morning</span>
+        </Link>
+        <Link href="/nutrition" className={`glass-card ${styles.actionCard}`}>
+          <IoNutrition className={styles.actionIcon} style={{ color: '#69F0AE' }} />
+          <span>Nutrition</span>
         </Link>
       </section>
     </div>

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useData } from '@/context/DataContext';
+import { getSupabase } from '@/lib/supabase';
 import {
     ResponsiveContainer,
     ComposedChart,
@@ -13,23 +14,66 @@ import {
     CartesianGrid,
 } from 'recharts';
 import { IoTrendingUp, IoAnalytics, IoBed, IoWater, IoBarbell } from 'react-icons/io5';
+import { format, subDays } from 'date-fns';
 import styles from './insights.module.css';
+
+type TimeRange = '1w' | '2w' | '1m' | '3m';
+const RANGE_DAYS: Record<TimeRange, number> = { '1w': 7, '2w': 14, '1m': 30, '3m': 90 };
+const RANGE_LABELS: Record<TimeRange, string> = { '1w': '7 Day', '2w': '14 Day', '1m': '30 Day', '3m': '90 Day' };
 
 export default function InsightsPage() {
     const {
-        weeklyStrain, weeklyRecovery,
         totalCalories, totalProtein, totalWater,
         settings, meals,
     } = useData();
     const [mounted, setMounted] = useState(false);
+    const [range, setRange] = useState<TimeRange>('1w');
+    const [rangeStrain, setRangeStrain] = useState<{ date: string; score: number }[]>([]);
+    const [rangeRecovery, setRangeRecovery] = useState<{ date: string; score: number }[]>([]);
 
     useEffect(() => { setMounted(true); }, []);
+
+    // Fetch data for the selected time range
+    const loadRange = useCallback(async (r: TimeRange) => {
+        const sb = getSupabase();
+        const days = RANGE_DAYS[r];
+        const startDate = format(subDays(new Date(), days - 1), 'yyyy-MM-dd');
+        const endDate = format(new Date(), 'yyyy-MM-dd');
+
+        if (!sb) {
+            // Generate placeholder data
+            const data = Array.from({ length: days }, (_, i) => ({
+                date: format(subDays(new Date(), days - 1 - i), 'yyyy-MM-dd'),
+                score: +(Math.random() * 15 + 3).toFixed(1),
+            }));
+            setRangeStrain(data);
+            setRangeRecovery(data.map(d => ({ ...d, score: Math.round(Math.random() * 60 + 30) })));
+            return;
+        }
+
+        const { data } = await sb
+            .from('daily_summaries')
+            .select('date, strain_score, recovery_score')
+            .gte('date', startDate)
+            .lte('date', endDate)
+            .order('date', { ascending: true });
+
+        if (data && data.length > 0) {
+            setRangeStrain(data.map((d: Record<string, unknown>) => ({ date: d.date as string, score: (d.strain_score as number) ?? 0 })));
+            setRangeRecovery(data.map((d: Record<string, unknown>) => ({ date: d.date as string, score: (d.recovery_score as number) ?? 0 })));
+        } else {
+            setRangeStrain([]);
+            setRangeRecovery([]);
+        }
+    }, []);
+
+    useEffect(() => { loadRange(range); }, [range, loadRange]);
 
     // Combine strain + recovery into a single chart dataset
     const overlayData = useMemo(() => {
         const data: { date: string; strain: number; recovery: number }[] = [];
-        const recoveryMap = new Map(weeklyRecovery.map(r => [r.date, r.score]));
-        weeklyStrain.forEach(s => {
+        const recoveryMap = new Map(rangeRecovery.map(r => [r.date, r.score]));
+        rangeStrain.forEach(s => {
             data.push({
                 date: s.date.slice(5), // "MM-DD"
                 strain: s.score,
@@ -37,15 +81,19 @@ export default function InsightsPage() {
             });
         });
         return data;
-    }, [weeklyStrain, weeklyRecovery]);
+    }, [rangeStrain, rangeRecovery]);
 
-    // Compute insight cards
-    const avgStrain = weeklyStrain.length > 0
-        ? +(weeklyStrain.reduce((s, d) => s + d.score, 0) / weeklyStrain.length).toFixed(1)
+    // Compute insight cards for the selected range
+    const avgStrain = rangeStrain.length > 0
+        ? +(rangeStrain.reduce((s, d) => s + d.score, 0) / rangeStrain.length).toFixed(1)
         : 0;
-    const avgRecovery = weeklyRecovery.length > 0
-        ? Math.round(weeklyRecovery.reduce((s, d) => s + d.score, 0) / weeklyRecovery.length)
+    const avgRecovery = rangeRecovery.length > 0
+        ? Math.round(rangeRecovery.reduce((s, d) => s + d.score, 0) / rangeRecovery.length)
         : 0;
+    const peakStrain = rangeStrain.length > 0
+        ? Math.max(...rangeStrain.map(s => s.score))
+        : 0;
+    const daysTracked = rangeStrain.length;
     const calorieBalance = totalCalories - settings.calorie_goal;
     const proteinPct = settings.protein_goal > 0
         ? Math.round((totalProtein / settings.protein_goal) * 100)
@@ -81,30 +129,41 @@ export default function InsightsPage() {
                 <div className={`glass-card ${styles.statCard}`}>
                     <IoTrendingUp className={styles.cardIcon} style={{ color: '#FF6B35' }} />
                     <div className={styles.statValue}>{avgStrain}</div>
-                    <div className={styles.statLabel}>Avg Strain (7d)</div>
+                    <div className={styles.statLabel}>Avg Strain ({RANGE_LABELS[range]})</div>
                 </div>
                 <div className={`glass-card ${styles.statCard}`}>
                     <IoBed className={styles.cardIcon} style={{ color: '#4ECDC4' }} />
                     <div className={styles.statValue}>{avgRecovery}%</div>
-                    <div className={styles.statLabel}>Avg Recovery (7d)</div>
+                    <div className={styles.statLabel}>Avg Recovery ({RANGE_LABELS[range]})</div>
                 </div>
                 <div className={`glass-card ${styles.statCard}`}>
                     <IoBarbell className={styles.cardIcon} style={{ color: '#60CFFF' }} />
-                    <div className={styles.statValue} style={{ color: calorieBalance >= 0 ? '#4ECDC4' : '#FF6B6B' }}>
-                        {calorieBalance >= 0 ? '+' : ''}{calorieBalance}
-                    </div>
-                    <div className={styles.statLabel}>Cal Balance Today</div>
+                    <div className={styles.statValue}>{peakStrain.toFixed(1)}</div>
+                    <div className={styles.statLabel}>Peak Strain</div>
                 </div>
                 <div className={`glass-card ${styles.statCard}`}>
-                    <IoWater className={styles.cardIcon} style={{ color: '#38BDF8' }} />
-                    <div className={styles.statValue}>{waterPct}%</div>
-                    <div className={styles.statLabel}>Hydration Today</div>
+                    <IoAnalytics className={styles.cardIcon} style={{ color: '#38BDF8' }} />
+                    <div className={styles.statValue}>{daysTracked}</div>
+                    <div className={styles.statLabel}>Days Tracked</div>
                 </div>
             </div>
 
-            {/* Strain vs Recovery overlay chart */}
+            {/* Time Range Selector */}
             <section className={`glass-card ${styles.section}`}>
-                <h2 className={styles.sectionTitle}>Strain vs Recovery — 7 Day</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                    <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Strain vs Recovery</h2>
+                    <div className={styles.rangeToggle}>
+                        {(['1w', '2w', '1m', '3m'] as TimeRange[]).map(r => (
+                            <button
+                                key={r}
+                                className={`${styles.rangeBtn} ${range === r ? styles.rangeBtnActive : ''}`}
+                                onClick={() => setRange(r)}
+                            >
+                                {r}
+                            </button>
+                        ))}
+                    </div>
+                </div>
                 {overlayData.length > 0 ? (
                     <ResponsiveContainer width="100%" height={220}>
                         <ComposedChart data={overlayData}>

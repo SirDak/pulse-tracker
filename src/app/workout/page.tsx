@@ -25,10 +25,25 @@ export default function WorkoutPage() {
         { exercise: '', sets: '', reps: '', weight_lbs: '' },
     ]);
 
+    const PRESETS = [
+        'Bench Press', 'Squat', 'Deadlift', 'OHP',
+        'Barbell Row', 'Pull-up', 'Lat Pulldown', 'Leg Press',
+        'Dumbbell Curl', 'Tricep Pushdown', 'Leg Extension', 'RDL',
+    ];
+
     useEffect(() => { setMounted(true); }, []);
 
     const addExercise = () => {
         setExercises(prev => [...prev, { exercise: '', sets: '', reps: '', weight_lbs: '' }]);
+    };
+
+    const addPreset = (name: string) => {
+        const emptyIdx = exercises.findIndex(e => !e.exercise.trim());
+        if (emptyIdx >= 0) {
+            setExercises(prev => prev.map((e, i) => i === emptyIdx ? { ...e, exercise: name } : e));
+        } else {
+            setExercises(prev => [...prev, { exercise: name, sets: '3', reps: '10', weight_lbs: '' }]);
+        }
     };
 
     const removeExercise = (index: number) => {
@@ -117,6 +132,30 @@ export default function WorkoutPage() {
                 </div>
             </section>
 
+            {/* Exercise Presets */}
+            <section className={`glass-card ${styles.section}`}>
+                <h2 className={styles.sectionTitle}>Quick Add</h2>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                    {PRESETS.map(name => (
+                        <button
+                            key={name}
+                            onClick={() => addPreset(name)}
+                            style={{
+                                padding: '0.35rem 0.75rem',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                                borderRadius: '1rem',
+                                background: 'rgba(255,255,255,0.05)',
+                                color: 'var(--text-primary)',
+                                fontSize: '0.8rem',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            {name}
+                        </button>
+                    ))}
+                </div>
+            </section>
+
             {/* Exercises */}
             <section className={`glass-card ${styles.section}`}>
                 <div className={styles.sectionHeader}>
@@ -177,6 +216,27 @@ export default function WorkoutPage() {
             <button className={styles.submitBtn} onClick={handleSubmit}>
                 Save Workout
             </button>
+
+            {/* Today's Workout History */}
+            {workouts.length > 0 && (
+                <section className={`glass-card ${styles.section}`} style={{ marginTop: '1rem' }}>
+                    <h2 className={styles.sectionTitle}>Today&apos;s Workouts</h2>
+                    {workouts.map((w, i) => (
+                        <div key={w.id || i} style={{
+                            padding: '0.75rem',
+                            borderBottom: i < workouts.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <strong style={{ color: 'var(--text-primary)' }}>{w.workout_type}</strong>
+                                <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>{w.duration_min} min</span>
+                            </div>
+                            {w.avg_hr_bpm && (
+                                <span style={{ color: '#FF6B6B', fontSize: '0.8rem' }}>❤️ {w.avg_hr_bpm} bpm avg</span>
+                            )}
+                        </div>
+                    ))}
+                </section>
+            )}
         </div>
     );
 }

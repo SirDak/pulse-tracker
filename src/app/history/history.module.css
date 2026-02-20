@@ -1,0 +1,288 @@
+.page {
+    padding: 1rem 1rem 6rem;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Month navigation */
+.monthNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.navBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.monthLabel {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Calendar */
+.calendar {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.dayHeaders {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 0.4rem;
+}
+
+.dayHeader {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.dayGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.dayCell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: transparent;
+    position: relative;
+}
+
+.dayCell:hover:not(.future):not(:empty) {
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dayNum {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.today {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.today .dayNum {
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.selected {
+    outline: 2px solid #fff !important;
+    outline-offset: -2px;
+}
+
+.future {
+    opacity: 0.25;
+    cursor: default;
+}
+
+.dayDots {
+    display: flex;
+    gap: 3px;
+    margin-top: 1px;
+}
+
+.dotStrain {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FFD600;
+}
+
+.dotRecovery {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #00E676;
+}
+
+/* Legend */
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.legendItem {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+}
+
+.legendSwatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+/* Day Detail */
+.detail {
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.detailTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.detailCard {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.detailCardTitle {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.statRow {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+}
+
+.statLabel {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statValue {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.statUnit {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.bioRow {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bioItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.bioLabel {
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.bioValue {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.9rem;
+}
+
+.listItem:last-child {
+    border-bottom: none;
+}
+
+.listItem strong {
+    color: var(--text-primary);
+}
+
+.listItem span {
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
+}
+
+.waterTotal {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #448AFF;
+    text-align: center;
+    padding: 0.5rem 0;
+}

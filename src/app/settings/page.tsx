@@ -123,20 +123,25 @@ export default function SettingsPage() {
             {/* Hardware */}
             <section className={`glass-card ${styles.section}`}>
                 <h2 className={styles.sectionTitle}>HR Data Source</h2>
-                {['apple_watch', 'polar_h10', 'other_ble', 'manual_only'].map(hw => (
+                {['coospo_h9z', 'garmin_hrm', 'apple_watch', 'other_ble', 'manual_only'].map(hw => (
                     <button
                         key={hw}
                         className={`${styles.hwOption} ${settings.hardware.includes(hw) ? styles.hwActive : ''}`}
                         onClick={() => updateSettings({ hardware: [hw] })}
                     >
                         <span className={styles.hwName}>
-                            {hw === 'apple_watch' ? '⌚ Apple Watch' :
-                                hw === 'polar_h10' ? '💓 Polar H10' :
-                                    hw === 'other_ble' ? '📡 Other BLE' : '✋ Manual Only'}
+                            {hw === 'coospo_h9z' ? '💓 Coospo H9Z' :
+                                hw === 'garmin_hrm' ? '💚 Garmin HRM-Dual' :
+                                    hw === 'apple_watch' ? '⌚ Apple Watch' :
+                                        hw === 'other_ble' ? '📡 Other BLE' : '✋ Manual Only'}
                         </span>
                         {settings.hardware.includes(hw) && <span className={styles.hwCheck}>✓</span>}
                     </button>
                 ))}
+                <p style={{ color: 'var(--muted)', fontSize: '0.8rem', margin: '0.75rem 0 0', lineHeight: 1.5 }}>
+                    💡 Pair your chest strap with iPhone via Bluetooth.
+                    HR data flows to Apple Health automatically, then syncs to Pulse via the daily Shortcut.
+                </p>
             </section>
 
             {/* About */}

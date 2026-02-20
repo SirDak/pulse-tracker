@@ -1,125 +1,73 @@
 # Apple Shortcuts Setup Guide — Pulse Tracker
 
 ## Prerequisites
-- Your Supabase Edge Function must be deployed (see [walkthrough.md](walkthrough.md))
-- You need your **Edge Function URL** and **secret token**
+- Supabase Edge Function is deployed at:
+  `https://xcsoupiwitsbpfciqnto.functions.supabase.co/ingest-health-data`
+- Your secret token: `pulse-sync-2026`
 
 ---
 
-## Shortcut 1: Morning Sync 🌅
+## Quick Setup (Simplest Version)
 
-This shortcut sends overnight health data to Pulse when you open the app each morning.
+### 1. Create a New Shortcut
+Open **Shortcuts** → tap **+** → name it **"Pulse Sync"**
 
-### Steps in the Shortcuts App
+### 2. Add "Get Contents of URL" Action
+- **URL:** `https://xcsoupiwitsbpfciqnto.functions.supabase.co/ingest-health-data`
+- **Method:** POST
+- **Headers:** Content-Type → `application/json`
+- **Request Body:** JSON
 
-1. Open **Shortcuts** on your iPhone → tap **+** → name it **"Pulse Morning Sync"**
+### 3. Add These JSON Fields
+| Type | Key | Value |
+|------|-----|-------|
+| Text | `secret` | `pulse-sync-2026` |
+| Text | `rhr_bpm` | Your resting HR (e.g., `55`) |
+| Text | `sleep_hours` | Hours slept (e.g., `7.5`) |
 
-2. Add action: **Find Health Samples**
-   - Type: `Heart Rate Variability`
-   - Start Date: `Start of Today` minus `8 hours`
-   - Sort by: `Date` → `Latest First` → Limit: `1`
-   - Save to variable: `HRV`
+> **Note:** The `date` field is **optional** — the server auto-defaults to today's date.
 
-3. Add action: **Find Health Samples**
-   - Type: `Resting Heart Rate`
-   - Start Date: `Start of Today` minus `8 hours`
-   - Sort by: `Date` → `Latest First` → Limit: `1`
-   - Save to variable: `RHR`
-
-4. Add action: **Find Health Samples**
-   - Type: `Sleep Analysis`
-   - Start Date: `Start of Today` minus `24 hours`
-   - Sort by: `Date` → `Latest First` → Limit: `1`
-   - Save to variable: `Sleep`
-
-5. Add action: **Get Contents of URL**
-   - URL: `https://YOUR_PROJECT.supabase.co/functions/v1/ingest-health-data`
-   - Method: **POST**
-   - Headers: `Content-Type` = `application/json`
-   - Request Body: **JSON**
-     ```
-     {
-       "date": [Current Date, format: yyyy-MM-dd],
-       "hrv_ms": [HRV variable → Value],
-       "rhr_bpm": [RHR variable → Value],
-       "sleep_hours": [Sleep variable → Duration in Hours],
-       "secret": "your-secret-token"
-     }
-     ```
+### 4. Save & Test
+Tap the ▶ Play button. You should see a JSON response:
+```json
+{ "success": true, "date": "2026-02-20", "results": { "summary": "ok" } }
+```
 
 ---
 
-## Shortcut 2: Workout Sync 🏋️
+## Automate It (Daily at 7am)
 
-Sends today's workout data to Pulse.
-
-### Steps
-
-1. **Shortcuts** → **+** → name **"Pulse Workout Sync"**
-
-2. **Find Health Samples**
-   - Type: `Workouts`
-   - Start Date: `Start of Today`
-   - Sort by: `End Date` → `Latest First` → Limit: `1`
-   - Save to variable: `Workout`
-
-3. **Find Health Samples**
-   - Type: `Heart Rate`
-   - Start Date: [Workout Start Date]
-   - End Date: [Workout End Date]
-   - Save to variable: `WorkoutHR`
-
-4. **Get Contents of URL**
-   - URL: `https://YOUR_PROJECT.supabase.co/functions/v1/ingest-health-data`
-   - Method: **POST**
-   - Body:
-     ```
-     {
-       "date": [Current Date, format: yyyy-MM-dd],
-       "hr_samples": [
-         { "timestamp": [HR timestamp], "bpm": [HR value], "context": "workout" }
-       ],
-       "secret": "your-secret-token"
-     }
-     ```
+1. Go to **Shortcuts → Automation → +**
+2. Select **Time of Day** → set to **7:00 AM** → **Daily**
+3. Toggle **Run Immediately** (turn off "Notify When Run")
+4. Tap **Run Shortcut** → pick your "Pulse Sync" shortcut
+5. **Done** — data syncs every morning automatically
 
 ---
 
-## Automation: Auto-Sync on App Open
+## Coospo H9Z Setup
 
-This makes everything happen automatically — zero taps required!
+When your chest strap arrives:
 
-1. Open **Shortcuts** → go to **Automation** tab
-2. Tap **+** → **Create Personal Automation**
-3. Choose: **App** → select **Pulse** (your PWA from home screen)
-4. Choose: **Is Opened**
-5. Add action: **Run Shortcut** → select **"Pulse Morning Sync"**
-6. (Optional) Add: **Run Shortcut** → **"Pulse Workout Sync"**
-7. Turn OFF **"Ask Before Running"**
-8. Tap **Done**
+1. **Pair via Bluetooth:** iPhone Settings → Bluetooth → find "CooSpo H9Z" → Pair
+2. **Verify in Health:** Open Apple Health → Browse → Heart → you should see data from the Coospo
+3. **During workouts:** The chest strap sends HR data to Apple Health automatically while paired
+4. **Shortcut pulls from Health:** You can upgrade the Shortcut later to query HealthKit for workout HR data
 
-Now every time you open Pulse from your home screen, your health data syncs automatically! 🚀
+The Coospo pairs with your iPhone just like any Bluetooth accessory. Once paired, all heart rate data flows to Apple Health automatically — no extra app needed.
 
 ---
 
-## Testing
+## Available API Fields
 
-1. Open the Shortcuts app
-2. Tap your **"Pulse Morning Sync"** shortcut to run it manually
-3. Open Pulse in your browser → check if today's HRV, RHR, and sleep data appear
-4. If you get an error, check:
-   - Is the Edge Function URL correct?
-   - Is the secret token matching?
-   - Are Health permissions granted? (Settings → Shortcuts → Health)
+The Edge Function accepts any combination of these fields:
 
----
-
-## Troubleshooting
-
-| Issue | Fix |
-|-------|-----|
-| "Health access denied" | Settings → Privacy → Health → Shortcuts → enable all |
-| "Network error" | Check your Supabase project is running + URL is correct |
-| "Unauthorized" | Make sure `secret` in shortcuts matches `INGEST_SECRET` env var |
-| No HRV data | Your watch must be worn overnight for HRV readings |
-| No sleep data | Enable Sleep Tracking in the Watch app |
+| Field | Type | Description |
+|-------|------|-------------|
+| `secret` | string | **Required.** Auth token |
+| `date` | string | Optional. YYYY-MM-DD (defaults to today) |
+| `hrv_ms` | number | Heart rate variability in ms |
+| `rhr_bpm` | number | Resting heart rate |
+| `sleep_hours` | number | Hours of sleep |
+| `sleep_quality` | number | 1-5 subjective rating |
+| `hr_samples` | array | `[{ timestamp, bpm, context }]` |
