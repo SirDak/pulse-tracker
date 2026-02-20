@@ -1,0 +1,150 @@
+.page {
+    padding: 1.25rem;
+    padding-bottom: 5rem;
+}
+
+.header {
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+/* Summary cards */
+.cardGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+    margin-bottom: 1rem;
+}
+
+.statCard {
+    text-align: center;
+    padding: 1rem;
+}
+
+.cardIcon {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.statValue {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0.25rem 0;
+}
+
+.statLabel {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Sections */
+.section {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.sectionTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.noData {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 1.5rem 0;
+}
+
+/* Insight text */
+.insightText {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+/* Progress */
+.progressGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.progressItem {
+    /* Container for individual progress rows */
+}
+
+.progressHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.progressTrack {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.progressDetail {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 0.125rem;
+    display: block;
+}
+
+/* Meal breakdown */
+.mealBreakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mealRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mealType {
+    font-size: 0.8rem;
+    min-width: 65px;
+    color: var(--text-secondary);
+}
+
+.mealBar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.mealBarFill {
+    height: 100%;
+    background: linear-gradient(90deg, #38BDF8, #4ECDC4);
+    border-radius: 4px;
+}
+
+.mealCal {
+    font-size: 0.75rem;
+    min-width: 55px;
+    text-align: right;
+    color: var(--text-secondary);
+}

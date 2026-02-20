@@ -1,0 +1,378 @@
+.page {
+    padding: 1.25rem;
+    padding-bottom: 5rem;
+}
+
+.header {
+    margin-bottom: 1.25rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Search */
+.searchBar {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 2.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+    border-color: var(--accent-blue);
+}
+
+.searchInput::placeholder {
+    color: var(--text-secondary);
+}
+
+.clearBtn {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Favorites toggle */
+.favToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+}
+
+.favToggle.active {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+/* Status */
+.status {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Results */
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.foodCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.foodCard:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.foodInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.foodName {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.foodBrand {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.125rem;
+}
+
+.foodMacros {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.cal {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.macroP {
+    color: #60CFFF;
+}
+
+.macroC {
+    color: #FFCF60;
+}
+
+.macroF {
+    color: #FF8C60;
+}
+
+.perServing {
+    color: var(--text-secondary);
+    font-size: 0.65rem;
+}
+
+.favBtn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+/* Empty state */
+.emptyState {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--text-secondary);
+}
+
+.emptyIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.4;
+}
+
+.emptyHint {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-top: 0.5rem;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal {
+    background: var(--card-bg);
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+.modalClose {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modalTitle {
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding-right: 2rem;
+}
+
+.modalBrand {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Serving row */
+.servingRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.servingInput,
+.mealSelect {
+    width: 100%;
+    padding: 0.6rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+/* Nutrient grid */
+.nutrientGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.nutrientCard {
+    padding: 0.875rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.nutrientValue {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.nutrientLabel {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calCard {
+    background: rgba(56, 189, 248, 0.12);
+}
+
+.calCard .nutrientValue {
+    color: #38BDF8;
+}
+
+.proteinCard {
+    background: rgba(96, 207, 255, 0.12);
+}
+
+.proteinCard .nutrientValue {
+    color: #60CFFF;
+}
+
+.carbCard {
+    background: rgba(255, 207, 96, 0.12);
+}
+
+.carbCard .nutrientValue {
+    color: #FFCF60;
+}
+
+.fatCard {
+    background: rgba(255, 140, 96, 0.12);
+}
+
+.fatCard .nutrientValue {
+    color: #FF8C60;
+}
+
+.servingNote {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.addBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.875rem;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.addBtn:active {
+    opacity: 0.85;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}

@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { IoHome, IoFitness, IoHeart, IoNutrition, IoSettings } from 'react-icons/io5';
+import { IoHome, IoFitness, IoHeart, IoSearch, IoAnalytics } from 'react-icons/io5';
 import styles from './BottomNav.module.css';
 
 const navItems = [
     { href: '/', icon: IoHome, label: 'Home' },
     { href: '/strain', icon: IoFitness, label: 'Strain' },
     { href: '/recovery', icon: IoHeart, label: 'Recovery' },
-    { href: '/nutrition', icon: IoNutrition, label: 'Nutrition' },
-    { href: '/settings', icon: IoSettings, label: 'Settings' },
+    { href: '/food', icon: IoSearch, label: 'Food' },
+    { href: '/insights', icon: IoAnalytics, label: 'Insights' },
 ];
 
 export default function BottomNav() {
