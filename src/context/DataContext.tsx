@@ -24,6 +24,7 @@ interface DataContextType {
     addWaterLog: (amount_oz: number) => Promise<void>;
     removeWaterLog: (id: string) => Promise<void>;
     addWorkout: (workout: Omit<Workout, 'id' | 'created_at'>, sets?: Omit<WorkoutSet, 'id' | 'workout_id' | 'created_at'>[]) => Promise<void>;
+    removeWorkout: (id: string) => Promise<void>;
     submitMorningRoutine: (data: {
         hrv?: number; rhr?: number; sleepHours?: number;
         sleepQuality?: number; energy?: number; soreness?: number; stress?: number;
@@ -282,6 +283,24 @@ export function DataProvider({ children }: { children: ReactNode }) {
         setWorkouts(prev => [...prev, { ...workout, id: crypto.randomUUID(), created_at: new Date().toISOString() }]);
     }, [settings]);
 
+    const removeWorkout = useCallback(async (id: string) => {
+        setWorkouts(prev => prev.filter(w => w.id !== id));
+        const sb = getSupabase();
+        if (sb) {
+            await sb.from('workout_sets').delete().eq('workout_id', id);
+            await sb.from('workouts').delete().eq('id', id);
+            // Recalculate strain with remaining workouts
+            const remaining = workouts.filter(w => w.id !== id);
+            if (remaining.length === 0) {
+                setStrainResult(null);
+                await sb.from('daily_summaries').upsert(
+                    { date: TODAY, strain_score: 0, updated_at: new Date().toISOString() },
+                    { onConflict: 'date' }
+                );
+            }
+        }
+    }, [workouts]);
+
     // ─── Morning routine ─────────────────────────────────────
     const submitMorningRoutine = useCallback(async (data: {
         hrv?: number; rhr?: number; sleepHours?: number;
@@ -341,7 +360,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
             settings, todaySummary, strainResult, recoveryResult,
             workouts, meals, waterLogs, weeklyStrain, weeklyRecovery, loading,
             updateSettings, addMeal, removeMeal, addWaterLog, removeWaterLog,
-            addWorkout, submitMorningRoutine, refreshData,
+            addWorkout, removeWorkout, submitMorningRoutine, refreshData,
             totalCalories, totalProtein, totalCarbs, totalFat, totalWater,
         }}>
             {children}

@@ -15,7 +15,7 @@ interface ExerciseEntry {
 }
 
 export default function WorkoutPage() {
-    const { addWorkout, workouts } = useData();
+    const { addWorkout, removeWorkout, workouts } = useData();
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
     const [workoutType, setWorkoutType] = useState('Strength Training');
@@ -225,14 +225,30 @@ export default function WorkoutPage() {
                         <div key={w.id || i} style={{
                             padding: '0.75rem',
                             borderBottom: i < workouts.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                         }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
                                 <strong style={{ color: 'var(--text-primary)' }}>{w.workout_type}</strong>
-                                <span style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>{w.duration_min} min</span>
+                                <div style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
+                                    {w.duration_min} min{w.avg_hr_bpm ? ` · ❤️ ${w.avg_hr_bpm} bpm` : ''}
+                                </div>
                             </div>
-                            {w.avg_hr_bpm && (
-                                <span style={{ color: '#FF6B6B', fontSize: '0.8rem' }}>❤️ {w.avg_hr_bpm} bpm avg</span>
-                            )}
+                            <button
+                                onClick={() => w.id && removeWorkout(w.id)}
+                                style={{
+                                    background: 'rgba(255,23,68,0.15)',
+                                    border: '1px solid rgba(255,23,68,0.3)',
+                                    borderRadius: '0.5rem',
+                                    color: '#FF6B6B',
+                                    padding: '0.3rem 0.6rem',
+                                    fontSize: '0.75rem',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                Remove
+                            </button>
                         </div>
                     ))}
                 </section>

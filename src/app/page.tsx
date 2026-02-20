@@ -21,7 +21,9 @@ export default function Dashboard() {
     totalCarbs,
     totalFat,
     totalWater,
+    waterLogs,
     addWaterLog,
+    removeWaterLog,
     refreshData,
   } = useData();
 
@@ -173,6 +175,18 @@ export default function Dashboard() {
               +{oz}oz
             </button>
           ))}
+          {waterLogs.length > 0 && (
+            <button
+              className={styles.waterBtn}
+              onClick={() => {
+                const last = waterLogs[waterLogs.length - 1];
+                if (last?.id) removeWaterLog(last.id);
+              }}
+              style={{ background: 'rgba(255,23,68,0.12)', borderColor: 'rgba(255,23,68,0.3)', color: '#FF6B6B' }}
+            >
+              Undo
+            </button>
+          )}
         </div>
       </section>
 

@@ -19,6 +19,8 @@ function NutritionContent() {
         totalWater,
         addMeal,
         addWaterLog,
+        removeWaterLog,
+        waterLogs,
         removeMeal,
         updateSettings,
     } = useData();
@@ -148,6 +150,18 @@ function NutritionContent() {
                     {[8, 12, 16, 24].map(oz => (
                         <button key={oz} className={styles.waterBtn} onClick={() => addWaterLog(oz)}>+{oz}oz</button>
                     ))}
+                    {waterLogs.length > 0 && (
+                        <button
+                            className={styles.waterBtn}
+                            onClick={() => {
+                                const last = waterLogs[waterLogs.length - 1];
+                                if (last?.id) removeWaterLog(last.id);
+                            }}
+                            style={{ background: 'rgba(255,23,68,0.12)', borderColor: 'rgba(255,23,68,0.3)', color: '#FF6B6B' }}
+                        >
+                            Undo
+                        </button>
+                    )}
                 </div>
             </section>
 

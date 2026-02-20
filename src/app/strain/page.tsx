@@ -8,7 +8,7 @@ import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, 
 import styles from './strain.module.css';
 
 export default function StrainPage() {
-    const { strainResult, workouts, weeklyStrain, refreshData } = useData();
+    const { strainResult, workouts, weeklyStrain, refreshData, removeWorkout } = useData();
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -147,12 +147,28 @@ export default function StrainPage() {
                                     <div className={styles.workoutType}>{w.workout_type}</div>
                                     <div className={styles.workoutMeta}>{w.duration_min} min · {w.calories_burned ?? 0} cal</div>
                                 </div>
-                                {w.avg_hr_bpm && (
-                                    <div className={styles.workoutHR}>
-                                        <span>{w.avg_hr_bpm}</span>
-                                        <span className={styles.hrLabel}>avg bpm</span>
-                                    </div>
-                                )}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    {w.avg_hr_bpm && (
+                                        <div className={styles.workoutHR}>
+                                            <span>{w.avg_hr_bpm}</span>
+                                            <span className={styles.hrLabel}>avg bpm</span>
+                                        </div>
+                                    )}
+                                    <button
+                                        onClick={() => w.id && removeWorkout(w.id)}
+                                        style={{
+                                            background: 'rgba(255,23,68,0.15)',
+                                            border: '1px solid rgba(255,23,68,0.3)',
+                                            borderRadius: '0.5rem',
+                                            color: '#FF6B6B',
+                                            padding: '0.25rem 0.5rem',
+                                            fontSize: '0.7rem',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
