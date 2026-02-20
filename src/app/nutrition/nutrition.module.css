@@ -1,0 +1,321 @@
+.page {
+    padding: 1.25rem;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-top: 0.5rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.125rem;
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.modeToggle {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.modeToggle:hover {
+    background: var(--bg-card-hover);
+    color: var(--accent-primary);
+}
+
+.summary {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.calorieRing {
+    margin-bottom: 1rem;
+}
+
+.calorieValue {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.calorieLabel {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.calorieRemaining {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 0.25rem;
+}
+
+.macroGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+}
+
+.macroItem {}
+
+.macroValue {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.addBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-md);
+    background: rgba(0, 188, 212, 0.1);
+    border: 1px solid rgba(0, 188, 212, 0.2);
+    color: #00BCD4;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.addBtn:hover {
+    background: rgba(0, 188, 212, 0.2);
+}
+
+.empty {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.mealList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.mealItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+}
+
+.mealInfo {
+    flex: 1;
+}
+
+.mealName {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.mealMeta {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-top: 0.125rem;
+}
+
+.removeBtn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.removeBtn:hover {
+    color: var(--accent-error);
+    background: rgba(255, 23, 68, 0.1);
+}
+
+.waterButtons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.waterBtn {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    background: rgba(68, 138, 255, 0.1);
+    border: 1px solid rgba(68, 138, 255, 0.2);
+    color: #448AFF;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.waterBtn:hover {
+    background: rgba(68, 138, 255, 0.2);
+}
+
+.waterBtn:active {
+    transform: scale(0.95);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.modalContent {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.modalHeader h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.modalHeader button {
+    font-size: 1.5rem;
+    color: var(--text-tertiary);
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.375rem;
+}
+
+.input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: var(--accent-primary);
+}
+
+.input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.select {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    outline: none;
+    appearance: none;
+}
+
+.macroInputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, #00BCD4, #00E676);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--bg-primary);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+}
+
+.submitBtn:hover {
+    opacity: 0.9;
+}
+
+.submitBtn:active {
+    transform: scale(0.98);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}

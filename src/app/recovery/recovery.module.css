@@ -1,0 +1,141 @@
+.page {
+    padding: 1.25rem;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: 1.25rem;
+    padding-top: 0.5rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.125rem;
+}
+
+.section {
+    margin-bottom: 1rem;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.875rem;
+}
+
+.chartContainer {
+    margin: 0 -0.5rem;
+}
+
+.scoreCard {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+}
+
+.bigScore {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.scoreLabel {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+.recommendation {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-top: 0.75rem;
+    line-height: 1.5;
+}
+
+.breakdownList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.breakdownRow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.breakdownLeft {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+}
+
+.breakdownName {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.breakdownWeight {
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+}
+
+.breakdownBar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.breakdownFill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+
+.breakdownScore {
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 28px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.completeness {
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+.sleepGrid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.sleepStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sleepValue {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.sleepLabel {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
