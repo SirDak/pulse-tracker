@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: 'Pulse Tracker — Strain & Recovery',
   description: 'Personal health tracker with Whoop-style strain and recovery scoring, macro nutrition tracking, and workout logging.',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icon-512.svg',
+    apple: '/apple-touch-icon.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
